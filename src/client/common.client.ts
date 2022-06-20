@@ -1,6 +1,6 @@
 import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 export class CommonClient {
   
@@ -21,15 +21,15 @@ export class CommonClient {
     return Promise.reject(error.response)
   }
 
-  public async findById(id: number): Promise<any> {
+  protected async _findById<T>(id: number): Promise<AxiosResponse<T>> {
     try {
-      return (await this.axiosClient.get<any>(`/${id}`)).data;
+      return (await this.axiosClient.get(`/${id}`)).data;
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  public async findAll(pageRequest: PageRequest): Promise<PageResponse<any>> {
+  protected async _findAll<T>(pageRequest: PageRequest): Promise<PageResponse<T>> {
     try {
       let requestPath = "";
 
@@ -40,7 +40,7 @@ export class CommonClient {
       },${pageRequest.direction}`;
 
       return (
-        await this.axiosClient.get<PageResponse<any>>(requestPath, {
+        await this.axiosClient.get(requestPath, {
           params: { filtros: pageRequest.filter },
         })
       ).data;
@@ -49,7 +49,7 @@ export class CommonClient {
     }
   }
 
-  public async register(model: any): Promise<void> {
+  protected async _register<T>(model: T): Promise<AxiosResponse<any>> {
     try {
       return await this.axiosClient.post("/", model);
     } catch (error) {
@@ -57,17 +57,17 @@ export class CommonClient {
     }
   }
 
-  public async edit(model: any): Promise<void> {
+  protected async _edit<T>(id: number, model: T): Promise<AxiosResponse<any>> {
     try {
-      return (await this.axiosClient.put(`/update/${model.id}`, model)).data;
+      return (await this.axiosClient.put(`/update/${id}`, model)).data;
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  public async updateStatus(model: any): Promise<void> {
+  protected async _updateStatus<T>(id: number, model: T): Promise<AxiosResponse<any>> {
     try {
-      return (await this.axiosClient.put(`/status/${model.id}`, model)).data;
+      return (await this.axiosClient.put(`/status/${id}`, model)).data;
     } catch (error) {
       this.handleError(error);
     }

@@ -1,3 +1,5 @@
+import { Convenio } from "@/model/convenio.model";
+import { PageRequest } from "@/model/page/page-request";
 import { CommonClient } from "./common.client";
 
 export class ConvenioClient extends CommonClient{
@@ -6,4 +8,23 @@ export class ConvenioClient extends CommonClient{
     super("convenios");
   }
 
+  public async findById(id: number){
+    return this._findById<Convenio>(id);
+  }
+
+  public async findAll(pageRequest: PageRequest){
+    return this._findAll<Convenio>(pageRequest);
+  }
+
+  public async register(model: Convenio){
+    return this._register<Convenio>(model);
+  }
+
+  public async edit(id: number, model: Convenio){
+    return this._edit<Convenio>(id, model);
+  }
+
+  public async updateStatus(id: number, model: Convenio){
+    return this._updateStatus(id, model);
+  }
 }
