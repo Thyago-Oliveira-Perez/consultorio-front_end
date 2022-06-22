@@ -24,8 +24,8 @@ export class CommonClient {
   protected async _findById<T>(id: number): Promise<AxiosResponse<T>> {
     try {
       return (await this.axiosClient.get(`/${id}`)).data;
-    } catch (error) {
-      this.handleError(error);
+    } catch (error: any) {
+      return this.handleError(error);
     }
   }
 
@@ -44,32 +44,32 @@ export class CommonClient {
           params: { filtros: pageRequest.filter },
         })
       ).data;
-    } catch (error) {
-      this.handleError(error);
+    } catch (error: any) {
+      return this.handleError(error);
     }
   }
 
-  protected async _register<T>(model: T): Promise<AxiosResponse<any>> {
+  protected async _register<T>(model: T): Promise<AxiosResponse<T>> {
     try {
       return await this.axiosClient.post("/", model);
-    } catch (error) {
-      this.handleError(error);
+    } catch (error: any) {
+      return this.handleError(error);
     }
   }
 
-  protected async _edit<T>(id: number, model: T): Promise<AxiosResponse<any>> {
+  protected async _edit<T>(id: number, model: T): Promise<AxiosResponse<T>> {
     try {
       return (await this.axiosClient.put(`/update/${id}`, model)).data;
-    } catch (error) {
-      this.handleError(error);
+    } catch (error: any) {
+      return this.handleError(error);
     }
   }
 
-  protected async _updateStatus<T>(id: number, model: T): Promise<AxiosResponse<any>> {
+  protected async _updateStatus<T>(id: number, model: T): Promise<AxiosResponse<T>> {
     try {
       return (await this.axiosClient.put(`/status/${id}`, model)).data;
-    } catch (error) {
-      this.handleError(error);
+    } catch (error: any) {
+      return this.handleError(error);
     }
   }
 }
