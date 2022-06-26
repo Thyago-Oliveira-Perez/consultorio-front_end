@@ -31,7 +31,9 @@ export default class SubMenu extends Vue {
 <style scoped lang="scss">
 button {
   border: none;
+  background-color: #f8f8f8;
 }
+
 span {
   text-align: center;
 }
@@ -41,6 +43,10 @@ li {
   justify-content: center;
 }
 
+li:hover {
+  background-color: #f0f0f0;
+}
+
 a {
   color: #42b983;
 }
@@ -48,7 +54,7 @@ a {
 #content-dropDown-style {
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: #f8f8f8;
   border-radius: 3px;
   width: auto;
 }
