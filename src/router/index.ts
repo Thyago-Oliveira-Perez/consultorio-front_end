@@ -6,6 +6,13 @@ import SecretariasView from "../views/secretaria/SecretariasView.vue";
 import HistoricosView from "../views/historico/HistoricosView.vue";
 import ConvenioView from "../views/convenio/ConvenioView.vue";
 import AgendamentoView from "../views/agendamentos/AgendamentoView.vue";
+import EspecialidadeView from "../views/especialidades/EspecialidadeView.vue";
+import CadastroMedico from "../views/medico/formCadastro/CadastroMedico.vue";
+import CadastroPaciente from "../views/paciente/formCadastro/CadastroPaciente.vue";
+import CadastroSecretaria from "../views/secretaria/formCadastro/CadastroSecretaria.vue";
+import CadastroAgendamento from "../views/agendamentos/formCadastro/CadastroAgendamento.vue";
+import CadastroEspecialidade from "../views/especialidades/formCadastro/CadastroEspecialidade.vue";
+import CadastroConvenio from "../views/convenio/formCadastro/CadastroConvenio.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -42,6 +49,41 @@ const routes: Array<RouteRecordRaw> = [
     path: "/agendamentos",
     name: "agendamentos",
     component: AgendamentoView,
+  },
+  {
+    path: "/especialidades",
+    name: "especialidades",
+    component: EspecialidadeView,
+  },
+  {
+    path: "/cadastrarMedico",
+    name: "cadastroMedico",
+    component: CadastroMedico,
+  },
+  {
+    path: "/cadastrarPaciente",
+    name: "cadastroPaciente",
+    component: CadastroPaciente,
+  },
+  {
+    path: "/cadastrarSecretaria",
+    name: "cadastroSecretaria",
+    component: CadastroSecretaria,
+  },
+  {
+    path: "/cadastrarEspecialidade",
+    name: "cadastroEspecialidade",
+    component: CadastroEspecialidade,
+  },
+  {
+    path: "/cadastrarConvenio",
+    name: "cadastrarConvenio",
+    component: CadastroConvenio,
+  },
+  {
+    path: "/cadastrarAgendamento",
+    name: "cadastroAgendamento",
+    component: CadastroAgendamento,
   },
 ];
 

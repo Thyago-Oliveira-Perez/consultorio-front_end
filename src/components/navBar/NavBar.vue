@@ -1,7 +1,9 @@
 <template>
   <div id="navBar">
     <div id="icone-consultorio">
-      <router-link to="/"><img src="../../assets/iconMain.png" alt="" /></router-link>
+      <router-link to="/"
+        ><img src="../../assets/iconMain.png" alt=""
+      /></router-link>
     </div>
     <div id="menu">
       <div id="sub-menu">
@@ -72,6 +74,10 @@ export default class NavBar extends Vue {
         name: "Historico",
         url: "/historicos",
       },
+      {
+        name: "Especialidade",
+        url: "/especialidades",
+      },
     ],
   };
 }
@@ -84,11 +90,11 @@ div {
   justify-content: center;
 }
 
-#icone-consultorio{
+#icone-consultorio {
   width: 10%;
 }
 
-img{
+img {
   width: 60px;
   height: 60px;
 }

@@ -4,8 +4,8 @@
   </div>
   <div class="column is-12" style="display: flex; align-items: center">
     <input class="input" type="text" placeholder="Procurar" />
-    <button id="button-cadastrar">
-      <router-link to="/" style="text-decoration: none; color: black"
+    <button class="button is-link" id="button-cadastrar">
+      <router-link to="/cadastrarAgendamento" style="text-decoration: none;"
         >Adicionar</router-link
       >
     </button>
