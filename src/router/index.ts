@@ -13,6 +13,7 @@ import CadastroSecretaria from "../views/secretaria/formCadastro/CadastroSecreta
 import CadastroAgendamento from "../views/agendamentos/formCadastro/CadastroAgendamento.vue";
 import CadastroEspecialidade from "../views/especialidades/formCadastro/CadastroEspecialidade.vue";
 import CadastroConvenio from "../views/convenio/formCadastro/CadastroConvenio.vue";
+import DetalhesSecretaria from "../views/secretaria/detalhes/DetalhesSecretaria.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -84,6 +85,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/cadastrarAgendamento",
     name: "cadastroAgendamento",
     component: CadastroAgendamento,
+  },
+  {
+    path: "/detalhesSecretaria",
+    name: "detalhesSecretaria",
+    component: DetalhesSecretaria,
   },
 ];
 

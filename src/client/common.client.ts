@@ -4,7 +4,7 @@ import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 export class CommonClient {
   
-  url: string = "http://localhost:8080/api/";
+  url = "http://localhost:8080/api/";
  
   axiosClient: AxiosInstance = axios.create({
     baseURL: this.url,

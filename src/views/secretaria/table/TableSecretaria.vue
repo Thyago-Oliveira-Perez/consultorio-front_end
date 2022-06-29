@@ -20,6 +20,9 @@
               >Editar</router-link
             >
           </button>
+          <button id="button-status">
+            <router-link to="/detalhesSecretaria">Detalhes</router-link>
+          </button>
         </td>
       </tr>
     </tbody>
