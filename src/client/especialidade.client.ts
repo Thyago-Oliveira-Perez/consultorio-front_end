@@ -5,7 +5,8 @@ import { CommonClient } from "./common.client";
 export class EspecialidadeClient extends CommonClient{
 
   constructor(){
-    super("especialidades");
+    super();
+    this.url = "http://localhost:8080/api/especialidades";
   }
 
   public async findById(id: number){

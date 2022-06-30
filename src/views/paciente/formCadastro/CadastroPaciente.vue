@@ -4,28 +4,53 @@
     <div id="cadastro">
       <div id="input-field">
         <label>Nome</label>
-        <input class="input" type="text" placeholder="Nome" />
+        <input
+          class="input"
+          v-model="paciente.nome"
+          type="text"
+          placeholder="Nome"
+        />
       </div>
       <div id="input-field">
         <label>CPF</label>
-        <input class="input" type="text" placeholder="000.000.000-00" />
+        <input
+          class="input"
+          v-model="paciente.cpf"
+          type="text"
+          placeholder="000.000.000-00"
+        />
       </div>
       <div id="input-field">
         <label>RG</label>
-        <input class="input" type="text" placeholder="00.000.000-0" />
+        <input
+          class="input"
+          v-model="paciente.rg"
+          type="text"
+          placeholder="00.000.000-0"
+        />
       </div>
       <div id="input-field">
         <label>Telefone</label>
-        <input class="input" type="tel" placeholder="+00 (00) 0 0000-0000" />
+        <input
+          class="input"
+          v-model="paciente.telefone"
+          type="tel"
+          placeholder="+00 (00) 0 0000-0000"
+        />
       </div>
       <div id="input-field">
         <label>Celular</label>
-        <input class="input" type="tel" placeholder="+00 (00) 0000-0000" />
+        <input
+          class="input"
+          v-model="paciente.celular"
+          type="tel"
+          placeholder="+00 (00) 0000-0000"
+        />
       </div>
       <div id="input-field">
         <label>Nacionalidade</label>
         <div class="select select-option">
-          <select>
+          <select v-model="paciente.nacionalidade">
             <option>Brasil</option>
             <option>Paraguai</option>
             <option>Argentina</option>
@@ -37,20 +62,35 @@
       </div>
       <div id="input-field">
         <label>Email</label>
-        <input class="input" type="email" placeholder="email@gmail.com" />
+        <input
+          class="input"
+          v-model="paciente.email"
+          type="email"
+          placeholder="email@gmail.com"
+        />
       </div>
       <div id="input-field">
         <label>Login</label>
-        <input class="input" type="text" placeholder="loginTeste" />
+        <input
+          class="input"
+          v-model="paciente.login"
+          type="text"
+          placeholder="loginTeste"
+        />
       </div>
       <div id="input-field">
         <label>Senha</label>
-        <input class="input" type="password" placeholder="*********" />
+        <input
+          class="input"
+          v-model="paciente.senha"
+          type="password"
+          placeholder="*********"
+        />
       </div>
       <div id="input-field">
         <label>Sexo</label>
         <div class="select select-option">
-          <select>
+          <select v-model="paciente.sexo">
             <option></option>
             <option>Masculino</option>
             <option>Feminino</option>
@@ -66,7 +106,7 @@
       <div id="input-field">
         <label>Tipo de Atendimento</label>
         <div class="select select-option">
-          <select>
+          <select v-model="paciente.tipoAtendimento">
             <option>Particular</option>
             <option>Convênio</option>
           </select>
@@ -74,22 +114,41 @@
       </div>
       <div id="input-field">
         <label>Número do Cartão</label>
-        <input class="input" type="text" placeholder="000000000000" />
+        <input
+          class="input"
+          v-model="paciente.numeroCartao"
+          type="text"
+          placeholder="000000000000"
+        />
       </div>
       <div id="input-field">
         <label>Data de Vencimento do Convênio</label>
-        <input class="input" type="text" placeholder="__/__/__" />
+        <input
+          class="input"
+          v-model="paciente.dataVencimento"
+          type="text"
+          placeholder="__/__/__"
+        />
       </div>
       <div id="input-field">
         <label>Nome do convênio</label>
-        <input class="input" type="text" placeholder="" />
+        <input
+          class="input"
+          v-model="paciente.convenio"
+          type="text"
+          placeholder=""
+        />
       </div>
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <a @click="$router.go(-1)">Cancelar</a>
+    <router-link to="/pacientes">Cancelar</router-link>
   </button>
-  <button class="button is-link button" style="background-color: #42b983">
+  <button
+    class="button is-link button"
+    style="background-color: #42b983"
+    @click="registerPaciente"
+  >
     Cadastrar
   </button>
 </template>
@@ -137,11 +196,27 @@ a {
 </style>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {},
-  props: {},
-})
-export default class CadastroPaciente extends Vue {}
+import { PacienteClient } from "@/client/paciente.client";
+import { Paciente } from "@/model/paciente.model";
+
+export default class CadastroPaciente extends Vue {
+  private pacienteClient!: PacienteClient;
+  public paciente = new Paciente();
+
+  public mounted(): void {
+    this.pacienteClient = new PacienteClient();
+  }
+
+  public registerPaciente(): void {
+    this.pacienteClient.register(this.paciente).then(
+      (sucess) => {
+        console.log(sucess);
+        this.paciente = new Paciente();
+      },
+      (error) => console.log(error)
+    );
+  }
+}
 </script>

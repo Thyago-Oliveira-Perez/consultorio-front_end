@@ -5,7 +5,8 @@ import { CommonClient } from "./common.client";
 export class AgendaClient extends CommonClient{
 
   constructor(){
-    super("agendas");
+    super();
+    this.url = "http://localhost:8080/api/agendas";
   }
 
   public async findById(id: number){

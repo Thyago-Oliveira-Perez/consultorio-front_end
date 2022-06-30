@@ -5,7 +5,8 @@ import { CommonClient } from "./common.client";
 export class HistoricoClient extends CommonClient{
 
   constructor(){
-    super("historicos");
+    super();
+    this.url = "http://localhost:8080/api/historicos";
   }
 
   public async findById(id: number){

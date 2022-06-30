@@ -4,7 +4,12 @@
     <div id="cadastro">
       <div id="input-field">
         <label>Nome do convênio</label>
-        <input class="input" type="text" placeholder="Nome" />
+        <input
+          class="input"
+          v-model="convenio.nome"
+          type="text"
+          placeholder="Nome"
+        />
       </div>
       <div id="input-field">
         <label>Valor</label>
@@ -63,11 +68,27 @@ a {
 </style>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {},
-  props: {},
-})
-export default class CadastroConvenio extends Vue {}
+import { Convenio } from "@/model/convenio.model";
+import { ConvenioClient } from "@/client/convenio.client";
+
+export default class CadastroConvenio extends Vue {
+  private convenioClient!: ConvenioClient;
+  public convenio = new Convenio();
+
+  public mounted(): void {
+    this.convenioClient = new ConvenioClient();
+  }
+
+  public registerConvenio(): void {
+    this.convenioClient.register(this.convenio).then(
+      (sucess) => {
+        console.log(sucess);
+        this.convenio = new Convenio();
+      },
+      (error) => console.log(error)
+    );
+  }
+}
 </script>

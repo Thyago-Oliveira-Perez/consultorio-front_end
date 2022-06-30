@@ -5,7 +5,8 @@ import { CommonClient } from "./common.client";
 export class MedicoClient extends CommonClient{
 
   constructor(){
-    super("medicos");
+    super();
+    this.url = "http://localhost:8080/api/medicos";
   }
 
   public async findById(id: number){

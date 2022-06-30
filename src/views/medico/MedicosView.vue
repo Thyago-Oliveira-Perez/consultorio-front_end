@@ -24,11 +24,11 @@
       <tr v-for="info in medicoList" :key="info.id">
         <td>{{ info.nome }}</td>
         <td>{{ info.crm }}</td>
-        <td>{{ info.especialidade }}</td>
-        <td>
-          <button id="button-status">Desativar</button>
-          <button id="button-edit">
-            <router-link to="/" style="text-decoration: none; color: black"
+        <td>{{ info.especialidade.nome }}</td>
+        <td style="display: flex; flex-direction: row">
+          <button class="is-link button" id="button-status">Desativar</button>
+          <button class="is-link button" id="button-edit">
+            <router-link to="/" style="text-decoration: none"
               >Editar</router-link
             >
           </button>
@@ -39,21 +39,24 @@
 </template>
 
 <style>
-tr,
+th {
+  min-width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 td {
-  width: 100%;
+  min-width: 10%;
+  min-height: 70px;
+}
+tr {
   display: flex;
   align-items: center;
   justify-content: space-around;
 }
 
-td {
-  flex-direction: column;
-}
-
 button {
-  margin: 2px;
-  height: 26px;
   border-radius: 5px;
 }
 
@@ -78,9 +81,11 @@ button {
 </style>
 
 <script lang="ts">
-import { Medico } from "@/model/medico.model";
 import { Vue } from "vue-class-component";
+
+import { Medico } from "@/model/medico.model";
 import { MedicoClient } from "../../client/medico.client";
+
 import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 
@@ -88,15 +93,15 @@ export default class MedicosView extends Vue {
   private pageRequest: PageRequest = new PageRequest();
   private pageResponse: PageResponse<Medico> = new PageResponse();
 
-  public medicoList: Medico[] = [];
   private medicoClient!: MedicoClient;
+  public medicoList: Medico[] = [];
 
-  private mount(): void {
+  public mounted(): void {
     this.medicoClient = new MedicoClient();
-    this.listarMedicos();
+    this.toListMedicos();
   }
 
-  private listarMedicos(): void {
+  private toListMedicos(): void {
     this.medicoClient.findAll(this.pageRequest).then(
       (success) => {
         this.pageResponse = success;

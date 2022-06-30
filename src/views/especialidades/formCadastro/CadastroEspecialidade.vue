@@ -4,14 +4,23 @@
     <div id="cadastro">
       <div id="input-field">
         <label>Nome da especialidade</label>
-        <input class="input" type="text" placeholder="Nome" />
+        <input
+          class="input"
+          v-model="especialidade.nome"
+          type="text"
+          placeholder="Nome"
+        />
       </div>
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <a @click="$router.go(-1)">Cancelar</a>
+    <router-link to="/especialidades">Cancelar</router-link>
   </button>
-  <button class="button is-link button" style="background-color: #42b983">
+  <button
+    class="button is-link button"
+    style="background-color: #42b983"
+    @click="registerEspecialidade"
+  >
     Cadastrar
   </button>
 </template>
@@ -59,11 +68,27 @@ a {
 </style>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {},
-  props: {},
-})
-export default class CadastroEspecialidade extends Vue {}
+import { EspecialidadeClient } from "@/client/especialidade.client";
+import { Especialidade } from "@/model/especialidade.model";
+
+export default class CadastroEspecialidade extends Vue {
+  private especialidadeClient!: EspecialidadeClient;
+  public especialidade = new Especialidade();
+
+  public mounted(): void {
+    this.especialidadeClient = new EspecialidadeClient();
+  }
+
+  public registerEspecialidade(): void {
+    this.especialidadeClient.register(this.especialidade).then(
+      (sucess) => {
+        console.log(sucess);
+        this.especialidade = new Especialidade();
+      },
+      (error) => console.log(error)
+    );
+  }
+}
 </script>

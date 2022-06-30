@@ -4,28 +4,53 @@
     <div id="cadastro">
       <div id="input-field">
         <label>Nome</label>
-        <input class="input" type="text" placeholder="Nome" />
+        <input
+          class="input"
+          v-model="secretaria.nome"
+          type="text"
+          placeholder="Nome"
+        />
       </div>
       <div id="input-field">
         <label>CPF</label>
-        <input class="input" type="text" placeholder="000.000.000-00" />
+        <input
+          class="input"
+          v-model="secretaria.cpf"
+          type="text"
+          placeholder="000.000.000-00"
+        />
       </div>
       <div id="input-field">
         <label>RG</label>
-        <input class="input" type="text" placeholder="00.000.000-0" />
+        <input
+          class="input"
+          v-model="secretaria.rg"
+          type="text"
+          placeholder="00.000.000-0"
+        />
       </div>
       <div id="input-field">
         <label>Telefone</label>
-        <input class="input" type="tel" placeholder="+00 (00) 0 0000-0000" />
+        <input
+          class="input"
+          v-model="secretaria.telefone"
+          type="tel"
+          placeholder="+00 (00) 0 0000-0000"
+        />
       </div>
       <div id="input-field">
         <label>Celular</label>
-        <input class="input" type="tel" placeholder="+00 (00) 0000-0000" />
+        <input
+          class="input"
+          v-model="secretaria.celular"
+          type="tel"
+          placeholder="+00 (00) 0000-0000"
+        />
       </div>
       <div id="input-field">
         <label>Nacionalidade</label>
         <div class="select select-option">
-          <select>
+          <select v-model="secretaria.nacionalidade">
             <option>Brasil</option>
             <option>Paraguai</option>
             <option>Argentina</option>
@@ -37,20 +62,35 @@
       </div>
       <div id="input-field">
         <label>Email</label>
-        <input class="input" type="email" placeholder="email@gmail.com" />
+        <input
+          class="input"
+          v-model="secretaria.email"
+          type="email"
+          placeholder="email@gmail.com"
+        />
       </div>
       <div id="input-field">
         <label>Login</label>
-        <input class="input" type="text" placeholder="loginTeste" />
+        <input
+          class="input"
+          v-model="secretaria.login"
+          type="text"
+          placeholder="loginTeste"
+        />
       </div>
       <div id="input-field">
         <label>Senha</label>
-        <input class="input" type="password" placeholder="*********" />
+        <input
+          class="input"
+          v-model="secretaria.senha"
+          type="password"
+          placeholder="*********"
+        />
       </div>
       <div id="input-field">
         <label>Sexo</label>
         <div class="select select-option">
-          <select>
+          <select v-model="secretaria.sexo">
             <option></option>
             <option>Masculino</option>
             <option>Feminino</option>
@@ -65,20 +105,39 @@
     <div id="cadastro">
       <div id="input-field">
         <label>Salário</label>
-        <input class="input" type="text" placeholder="R$ 00,00" />
+        <input
+          class="input"
+          v-model="secretaria.salario"
+          type="text"
+          placeholder="R$ 00,00"
+        />
       </div>
       <div id="input-field">
         <label>Pis</label>
-        <input class="input" type="text" placeholder="000000000000" />
+        <input
+          class="input"
+          v-model="secretaria.pis"
+          type="text"
+          placeholder="000000000000"
+        />
       </div>
       <div id="input-field">
         <label>Data de Contratação</label>
-        <input class="input" type="text" placeholder="__/__/__" />
+        <input
+          class="input"
+          v-model="secretaria.dataContratacao"
+          type="text"
+          placeholder="__/__/__"
+        />
       </div>
     </div>
   </div>
-  <button class="button is-link" style="background-color: #42b983">
-    <a @click="$router.go(-1)">Cancelar</a>
+  <button
+    class="button is-link"
+    style="background-color: #42b983"
+    @click="registerSecretaria"
+  >
+    <router-link to="/secretarias">Cancelar</router-link>
   </button>
   <button class="button is-link button" style="background-color: #42b983">
     Cadastrar
@@ -128,11 +187,27 @@ a {
 </style>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Vue } from "vue-class-component";
 
-@Options({
-  components: {},
-  props: {},
-})
-export default class CadastroSecretaria extends Vue {}
+import { SecretariaClient } from "@/client/secretaria.client";
+import { Secretaria } from "@/model/secretaria.model";
+
+export default class CadastroSecretaria extends Vue {
+  private secretariaClient!: SecretariaClient;
+  public secretaria = new Secretaria();
+
+  public mounted(): void {
+    this.secretariaClient = new SecretariaClient();
+  }
+
+  public registerSecretaria(): void {
+    this.secretariaClient.register(this.secretaria).then(
+      (sucess) => {
+        console.log(sucess);
+        this.secretaria = new Secretaria();
+      },
+      (error) => console.log(error)
+    );
+  }
+}
 </script>
