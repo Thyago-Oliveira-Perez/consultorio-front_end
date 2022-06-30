@@ -92,9 +92,9 @@
         <div class="select select-option">
           <select v-model="paciente.sexo">
             <option></option>
-            <option>Masculino</option>
-            <option>Feminino</option>
-            <option>Outro</option>
+            <option>{{sexoMasculino}}</option>
+            <option>{{sexoFeminino}}</option>
+            <option>{{sexoOutro}}</option>
           </select>
         </div>
       </div>
@@ -107,8 +107,8 @@
         <label>Tipo de Atendimento</label>
         <div class="select select-option">
           <select v-model="paciente.tipoAtendimento">
-            <option>Particular</option>
-            <option>Convênio</option>
+            <option>{{tipoAtendimentoParticular}}</option>
+            <option>{{tipoAtendimentoConvenio}}</option>
           </select>
         </div>
       </div>
@@ -126,7 +126,7 @@
         <input
           class="input"
           v-model="paciente.dataVencimento"
-          type="text"
+          type="datetime-local"
           placeholder="__/__/__"
         />
       </div>
@@ -200,10 +200,19 @@ import { Vue } from "vue-class-component";
 
 import { PacienteClient } from "@/client/paciente.client";
 import { Paciente } from "@/model/paciente.model";
+import { Sexo } from "@/enums/sexo";
+import { TipoAtendimento } from "@/enums/tipo_atendimento";
 
 export default class CadastroPaciente extends Vue {
   private pacienteClient!: PacienteClient;
   public paciente = new Paciente();
+
+  public sexoMasculino: Sexo = Sexo.masculino;
+  public sexoFeminino: Sexo = Sexo.feminino;
+  public sexoOutro: Sexo = Sexo.outro;
+
+  public tipoAtendimentoParticular: TipoAtendimento = TipoAtendimento.particular;
+  public tipoAtendimentoConvenio: TipoAtendimento = TipoAtendimento.convenio;
 
   public mounted(): void {
     this.pacienteClient = new PacienteClient();

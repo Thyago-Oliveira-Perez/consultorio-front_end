@@ -8,12 +8,3 @@ export enum StatusAgenda{
   nao_compareceu = "nao compareceu"
 
 }
-
-/*
-<option>Pendente</option>
-<option>Aprovado</option>
-<option>Rejeitado</option>
-<option>Cancelado</option>
-<option>Compareceu</option>
-<option>Não Compareceu</option>
-*/

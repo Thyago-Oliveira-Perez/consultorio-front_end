@@ -42,6 +42,23 @@
         </tr>
       </tbody>
     </table>
+    <nav
+      class="pagination is-centered"
+      role="navigation"
+      aria-label="pagination"
+      style="background-color: #ffff; border-radius: 5px; padding: 20px"
+    >
+      <a
+        class="pagination-previous"
+        @click="toListPacientes(pageRequest.currentPage - 1)"
+        >Anterior</a
+      >
+      <a
+        class="pagination-next"
+        @click="toListPacientes(pageRequest.currentPage + 1)"
+        >Próxima</a
+      >
+    </nav>
   </div>
 </template>
 
@@ -92,8 +109,7 @@ import { PageResponse } from "@/model/page/page-response";
 import { Convenio } from "@/model/convenio.model";
 
 export default class PacientesView extends Vue {
-
-  private pageRequest: PageRequest = new PageRequest();
+  public pageRequest: PageRequest = new PageRequest();
   private pageResponse: PageResponse<Paciente> = new PageResponse();
 
   private pacienteClient!: PacienteClient;
@@ -101,18 +117,18 @@ export default class PacientesView extends Vue {
 
   public mounted(): void {
     this.pacienteClient = new PacienteClient();
-    this.toListPacientes();
+    this.toListPacientes(0);
   }
 
-  private toListPacientes(): void {
+  public toListPacientes(page: number): void {
+    this.pageRequest.currentPage = page;
     this.pacienteClient.findAll(this.pageRequest).then(
       (sucess) => {
         this.pageResponse = sucess;
         this.pacienteList = this.pageResponse.content;
       },
-      (error) => console.log(error),
+      (error) => console.log(error)
     );
   }
-
 }
 </script>

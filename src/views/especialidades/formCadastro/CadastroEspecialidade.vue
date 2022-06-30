@@ -3,6 +3,12 @@
     <h1 class="title is-2" style="color: #ffff">Cadastro de Especialidades</h1>
     <div id="cadastro">
       <div id="input-field">
+        <label class="checkbox">
+          <input v-model="especialidade.ativo" type="checkbox" />
+          Ativa</label
+        >
+      </div>
+      <div id="input-field">
         <label>Nome da especialidade</label>
         <input
           class="input"
@@ -14,7 +20,7 @@
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <router-link to="/especialidades">Cancelar</router-link>
+    <router-link to="/especialidades">Voltar</router-link>
   </button>
   <button
     class="button is-link button"
@@ -82,9 +88,15 @@ export default class CadastroEspecialidade extends Vue {
   }
 
   public registerEspecialidade(): void {
+    
+    if(this.especialidade.ativo === undefined){
+      this.especialidade.ativo = false;
+    }
+
     this.especialidadeClient.register(this.especialidade).then(
       (sucess) => {
         console.log(sucess);
+        console.log(this.especialidade)
         this.especialidade = new Especialidade();
       },
       (error) => console.log(error)

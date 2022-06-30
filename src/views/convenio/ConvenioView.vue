@@ -23,7 +23,8 @@
       <tbody>
         <tr v-for="info in conveniosList" :key="info.id">
           <td>{{ info.nome }}</td>
-          <td>{{ info.ativo }}</td>
+          <td v-if="!info.ativo">Desabilitado</td>
+          <td v-if="info.ativo">Habilitado</td>
           <td>{{ info.valor }}</td>
           <td style="display: flex; flex-direction: row">
             <button class="is-link button" id="button-status">Desativar</button>
@@ -37,6 +38,23 @@
       </tbody>
     </table>
   </div>
+    <nav
+    class="pagination is-centered"
+    role="navigation"
+    aria-label="pagination"
+    style="background-color: #ffff; border-radius: 5px; padding: 20px"
+  >
+    <a
+      class="pagination-previous"
+      @click="toListConvenios(pageRequest.currentPage - 1)"
+      >Anterior</a
+    >
+    <a
+      class="pagination-next"
+      @click="toListConvenios(pageRequest.currentPage + 1)"
+      >Próxima</a
+    >
+  </nav>
 </template>
 
 <style>
@@ -90,7 +108,7 @@ import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 
 export default class ConvenioView extends Vue {
-  private pageRequest: PageRequest = new PageRequest();
+  public pageRequest: PageRequest = new PageRequest();
   private pageResponse: PageResponse<Convenio> = new PageResponse();
 
   private convenioClient!: ConvenioClient;
@@ -98,10 +116,11 @@ export default class ConvenioView extends Vue {
 
   public mounted(): void {
     this.convenioClient = new ConvenioClient();
-    this.toListConvenios();
+    this.toListConvenios(0);
   }
 
-  private toListConvenios(): void {
+  public toListConvenios(page: number): void {
+    this.pageRequest.currentPage = page;
     this.convenioClient.findAll(this.pageRequest).then(
       (sucess) => {
         this.pageResponse = sucess;

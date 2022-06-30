@@ -22,7 +22,8 @@
       <tbody>
         <tr v-for="info in especialidadeList" :key="info.id">
           <td>{{ info.nome }}</td>
-          <td>{{ info.ativo }}</td>
+          <td v-if="info.ativo">Habilitado</td>
+          <td v-if="!info.ativo">Desabilitado</td>
           <td style="display: flex; flex-direction: row">
             <button class="is-link button" id="button-status">Desativar</button>
             <button class="is-link button" id="button-edit">
@@ -34,6 +35,23 @@
         </tr>
       </tbody>
     </table>
+    <nav
+      class="pagination is-centered"
+      role="navigation"
+      aria-label="pagination"
+      style="background-color: #ffff; border-radius: 5px; padding: 20px"
+    >
+      <a
+        class="pagination-previous"
+        @click="toListEspecialidades(pageRequest.currentPage - 1)"
+        >Anterior</a
+      >
+      <a
+        class="pagination-next"
+        @click="toListEspecialidades(pageRequest.currentPage + 1)"
+        >Próxima</a
+      >
+    </nav>
   </div>
 </template>
 
@@ -89,7 +107,7 @@ import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 
 export default class EspecialidadeView extends Vue {
-  private pageRequest: PageRequest = new PageRequest();
+  public pageRequest: PageRequest = new PageRequest();
   private pageResponse: PageResponse<Especialidade> = new PageResponse();
 
   private especialidadeClient!: EspecialidadeClient;
@@ -97,14 +115,16 @@ export default class EspecialidadeView extends Vue {
 
   public mounted(): void {
     this.especialidadeClient = new EspecialidadeClient();
-    this.toListEspecialidades();
+    this.toListEspecialidades(0);
   }
 
-  private toListEspecialidades(): void {
+  public toListEspecialidades(page: number): void {
+    this.pageRequest.currentPage = page;
     this.especialidadeClient.findAll(this.pageRequest).then(
       (sucess) => {
         this.pageResponse = sucess;
         this.especialidadeList = this.pageResponse.content;
+        console.log(this.pageResponse.content);
       },
       (error) => console.log(error)
     );

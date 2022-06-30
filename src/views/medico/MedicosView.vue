@@ -36,6 +36,23 @@
       </tr>
     </tbody>
   </table>
+  <nav
+    class="pagination is-centered"
+    role="navigation"
+    aria-label="pagination"
+    style="background-color: #ffff; border-radius: 5px; padding: 20px"
+  >
+    <a
+      class="pagination-previous"
+      @click="toListMedicos(pageRequest.currentPage - 1)"
+      >Anterior</a
+    >
+    <a
+      class="pagination-next"
+      @click="toListMedicos(pageRequest.currentPage + 1)"
+      >Próxima</a
+    >
+  </nav>
 </template>
 
 <style>
@@ -90,7 +107,7 @@ import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 
 export default class MedicosView extends Vue {
-  private pageRequest: PageRequest = new PageRequest();
+  public pageRequest: PageRequest = new PageRequest();
   private pageResponse: PageResponse<Medico> = new PageResponse();
 
   private medicoClient!: MedicoClient;
@@ -98,10 +115,11 @@ export default class MedicosView extends Vue {
 
   public mounted(): void {
     this.medicoClient = new MedicoClient();
-    this.toListMedicos();
+    this.toListMedicos(0);
   }
 
-  private toListMedicos(): void {
+  public toListMedicos(page: number): void {
+    this.pageRequest.currentPage = page;
     this.medicoClient.findAll(this.pageRequest).then(
       (success) => {
         this.pageResponse = success;

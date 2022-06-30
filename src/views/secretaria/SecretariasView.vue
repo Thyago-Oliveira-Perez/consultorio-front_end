@@ -40,6 +40,23 @@
       </tbody>
     </table>
   </div>
+  <nav
+    class="pagination is-centered"
+    role="navigation"
+    aria-label="pagination"
+    style="background-color: #ffff; border-radius: 5px; padding: 20px"
+  >
+    <a
+      class="pagination-previous"
+      @click="toListSecretarias(pageRequest.currentPage - 1)"
+      >Anterior</a
+    >
+    <a
+      class="pagination-next"
+      @click="toListSecretarias(pageRequest.currentPage + 1)"
+      >Próxima</a
+    >
+  </nav>
 </template>
 
 <style>
@@ -94,7 +111,7 @@ import { PageRequest } from "@/model/page/page-request";
 import { PageResponse } from "@/model/page/page-response";
 
 export default class SecretariasView extends Vue {
-  private pageRequest: PageRequest = new PageRequest();
+  public pageRequest: PageRequest = new PageRequest();
   private pageResponse: PageResponse<Secretaria> = new PageResponse();
 
   private secretariaClient!: SecretariaClient;
@@ -102,10 +119,11 @@ export default class SecretariasView extends Vue {
 
   public mounted(): void {
     this.secretariaClient = new SecretariaClient();
-    this.toListSecretarias();
+    this.toListSecretarias(0);
   }
 
-  private toListSecretarias(): void {
+  public toListSecretarias(page: number): void {
+    this.pageRequest.currentPage = page;
     this.secretariaClient.findAll(this.pageRequest).then(
       (sucesss) => {
         this.pageResponse = sucesss;
