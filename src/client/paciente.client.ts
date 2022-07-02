@@ -25,7 +25,7 @@ export class PacienteClient extends CommonClient{
     return this._edit<Paciente>(id, model);
   }
 
-  public async updateStatus(id: number, model: Paciente){
-    return this._updateStatus(id, model);
+  public async updateStatus(id: number){
+    return this._updateStatus(id);
   }
 }

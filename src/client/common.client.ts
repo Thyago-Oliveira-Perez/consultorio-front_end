@@ -15,7 +15,7 @@ export class CommonClient {
     return Promise.reject(error.response)
   }
 
-  protected async _findById<T>(id: number): Promise<AxiosResponse<T>> {
+  protected async _findById<T>(id: number): Promise<T> {
     try {
       return (await this.axiosClient.get(`${this.url}/${id}`)).data;
     } catch (error: any) {
@@ -43,7 +43,7 @@ export class CommonClient {
     }
   }
 
-  protected async _register<T>(model: T): Promise<AxiosResponse<T>> {
+  protected async _register<T>(model: T): Promise<T> {
     try {
       return await this.axiosClient.post(`${this.url}/`, model);
     } catch (error: any) {
@@ -51,7 +51,7 @@ export class CommonClient {
     }
   }
 
-  protected async _edit<T>(id: number, model: T): Promise<AxiosResponse<T>> {
+  protected async _edit<T>(id: number, model: T): Promise<T> {
     try {
       return (await this.axiosClient.put(`${this.url}/update/${id}`, model)).data;
     } catch (error: any) {
@@ -59,9 +59,9 @@ export class CommonClient {
     }
   }
 
-  protected async _updateStatus<T>(id: number, model: T): Promise<AxiosResponse<T>> {
+  protected async _updateStatus<T>(id: number): Promise<T> {
     try {
-      return (await this.axiosClient.put(`${this.url}/status/${id}`, model)).data;
+      return (await this.axiosClient.put(`${this.url}/status/${id}`)).data;
     } catch (error: any) {
       return this.handleError(error);
     }

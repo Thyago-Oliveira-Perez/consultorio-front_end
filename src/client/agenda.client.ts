@@ -25,7 +25,7 @@ export class AgendaClient extends CommonClient{
     return this._edit<Agenda>(id, model);
   }
 
-  public async updateStatus(id: number, model: Agenda){
-    return this._updateStatus(id, model);
+  public async updateStatus(id: number){
+    return this._updateStatus(id);
   }
 }

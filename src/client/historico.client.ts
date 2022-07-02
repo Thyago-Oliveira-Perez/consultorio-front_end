@@ -25,7 +25,7 @@ export class HistoricoClient extends CommonClient{
     return this._edit<Historico>(id, model);
   }
 
-  public async updateStatus(id: number, model: Historico){
-    return this._updateStatus(id, model);
+  public async updateStatus(id: number){
+    return this._updateStatus(id);
   }
 }

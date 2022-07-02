@@ -25,7 +25,7 @@ export class ConvenioClient extends CommonClient{
     return this._edit<Convenio>(id, model);
   }
 
-  public async updateStatus(id: number, model: Convenio){
-    return this._updateStatus(id, model);
+  public async updateStatus(id: number){
+    return this._updateStatus(id);
   }
 }

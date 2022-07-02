@@ -23,6 +23,15 @@
     <router-link to="/especialidades">Voltar</router-link>
   </button>
   <button
+    v-if="especialidade.id"
+    class="button is-link button"
+    style="background-color: #42b983"
+    @click="registerEspecialidade"
+  >
+    Atualizar
+  </button>
+  <button
+    v-if="!especialidade.id"
     class="button is-link button"
     style="background-color: #42b983"
     @click="registerEspecialidade"
@@ -75,6 +84,7 @@ a {
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
 import { EspecialidadeClient } from "@/client/especialidade.client";
 import { Especialidade } from "@/model/especialidade.model";
@@ -85,22 +95,47 @@ export default class CadastroEspecialidade extends Vue {
 
   public mounted(): void {
     this.especialidadeClient = new EspecialidadeClient();
+    if (this.id) {
+      this.getById(this.id);
+    }
   }
 
   public registerEspecialidade(): void {
-    
-    if(this.especialidade.ativo === undefined){
-      this.especialidade.ativo = false;
-    }
+    if (this.especialidade.id != null) {
+      this.especialidadeClient
+        .edit(this.especialidade.id, this.especialidade)
+        .then(
+          (sucess) => {
+            this.onClickClear();
+          },
+          (error) => console.log(error)
+        );
+    } else {
+      if (this.especialidade.ativo === undefined) {
+        this.especialidade.ativo = false;
+      }
 
-    this.especialidadeClient.register(this.especialidade).then(
-      (sucess) => {
-        console.log(sucess);
-        console.log(this.especialidade)
-        this.especialidade = new Especialidade();
-      },
-      (error) => console.log(error)
-    );
+      this.especialidadeClient.register(this.especialidade).then(
+        (sucess) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    }
+  }
+
+  @Prop({ type: Number, require: true })
+  private readonly id!: number;
+
+  private getById(id: number): void {
+    this.especialidadeClient.findById(id).then((success) => {
+      this.especialidade = success;
+    });
+  }
+
+  private onClickClear(): void {
+    this.especialidade = new Especialidade();
+    this.$router.push({ name: "/especialidades" });
   }
 }
 </script>

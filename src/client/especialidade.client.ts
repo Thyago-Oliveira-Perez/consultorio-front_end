@@ -25,7 +25,7 @@ export class EspecialidadeClient extends CommonClient{
     return this._edit<Especialidade>(id, model);
   }
 
-  public async updateStatus(id: number, model: Especialidade){
-    return this._updateStatus(id, model);
+  public async updateStatus(id: number){
+    return this._updateStatus(id);
   }
 }

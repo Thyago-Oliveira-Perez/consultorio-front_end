@@ -4,10 +4,12 @@
   </div>
   <div class="column is-12" style="display: flex; align-items: center">
     <input class="input" type="text" placeholder="Procurar" />
-    <button class="button is-link button" id="button-cadastrar">
-      <router-link to="/cadastrarEspecialidade" style="text-decoration: none"
-        >Cadastrar</router-link
-      >
+    <button
+      class="button is-link button"
+      id="button-cadastrar"
+      @click="onClickCadastrar()"
+    >
+      Cadastrar
     </button>
   </div>
   <div class="column is-12">
@@ -25,11 +27,21 @@
           <td v-if="info.ativo">Habilitado</td>
           <td v-if="!info.ativo">Desabilitado</td>
           <td style="display: flex; flex-direction: row">
-            <button class="is-link button" id="button-status">Desativar</button>
-            <button class="is-link button" id="button-edit">
-              <router-link to="/" style="text-decoration: none"
-                >Editar</router-link
-              >
+            <button
+              @click="disable(info.id)"
+              style="text-decoration: none"
+              class="is-link button"
+              id="button-status"
+            >
+              Desativar
+            </button>
+            <button
+              @click="edit(info.id)"
+              style="text-decoration: none"
+              class="is-link button"
+              id="button-edit"
+            >
+              Editar
             </button>
           </td>
         </tr>
@@ -128,6 +140,26 @@ export default class EspecialidadeView extends Vue {
       },
       (error) => console.log(error)
     );
+  }
+
+  public edit(id: number): void {
+    this.$router.push({
+      name: "cadastroEspecialidade",
+      params: { id: id },
+    });
+  }
+
+  public disable(id: number): void {
+    this.especialidadeClient.updateStatus(id).then(
+      (success) => {
+        console.log(success);
+      },
+      (error) => console.log(error)
+    );
+  }
+
+  public onClickCadastrar(): void {
+    this.$router.push({ name: "cadastroEspecialidade" });
   }
 }
 </script>

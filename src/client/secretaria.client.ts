@@ -25,7 +25,7 @@ export class SecretariaClient extends CommonClient{
     return this._edit<Secretaria>(id, model);
   }
 
-  public async updateStatus(id: number, model: Secretaria){
-    return this._updateStatus(id, model);
+  public async updateStatus(id: number){
+    return this._updateStatus(id);
   }
 }
