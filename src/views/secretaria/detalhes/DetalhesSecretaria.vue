@@ -1,5 +1,4 @@
 <template>
-  <h1 class="title is-2">Detalhes</h1>
   <div id="container">
     <h1 class="title is-2" style="color: #ffff">Detalhes Pessoais</h1>
     <div id="cadastro">
@@ -25,9 +24,7 @@
       </div>
       <div id="input-field">
         <label>Nacionalidade</label>
-        <div class="select select-option">
-          <p>{{ secretaria.nacionalidade }}</p>
-        </div>
+        <p>{{ secretaria.nacionalidade }}</p>
       </div>
       <div id="input-field">
         <label>Email</label>
@@ -43,9 +40,7 @@
       </div>
       <div id="input-field">
         <label>Sexo</label>
-        <div class="select select-option">
-          <p>{{ secretaria.sexo }}</p>
-        </div>
+        <p>{{ secretaria.sexo }}</p>
       </div>
     </div>
   </div>
@@ -67,7 +62,7 @@
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <a @click="$router.go(-1)">Voltar</a>
+    <router-link to="/secretarias">Cancelar</router-link>
   </button>
 </template>
 
@@ -111,19 +106,38 @@ a {
   text-decoration: none;
   color: #ffff;
 }
+
+p {
+  width: 100%;
+  background-color: #ffff;
+  border-radius: 5px;
+}
 </style>
 
 <script lang="ts">
+import { SecretariaClient } from "@/client/secretaria.client";
 import { Secretaria } from "@/model/secretaria.model";
-import { Options, Vue } from "vue-class-component";
+import { Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
-@Options({
-  components: {},
-  props: {
-    secretaria: Secretaria,
-  },
-})
 export default class DetalhesSecretaria extends Vue {
-  secretaria!: Secretaria;
+  private secretariaClient!: SecretariaClient;
+  public secretaria = new Secretaria();
+
+  public mounted(): void {
+    this.secretariaClient = new SecretariaClient();
+    if (this.id) {
+      this.getById(this.id);
+    }
+  }
+
+  @Prop({ type: String, require: true })
+  private readonly id!: number;
+
+  private getById(id: number): void {
+    this.secretariaClient.findById(id).then((success) => {
+      this.secretaria = success;
+    });
+  }
 }
 </script>

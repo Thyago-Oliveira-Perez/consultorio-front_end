@@ -14,6 +14,7 @@ import CadastroAgendamento from "../views/agendamentos/formCadastro/CadastroAgen
 import CadastroEspecialidade from "../views/especialidades/formCadastro/CadastroEspecialidade.vue";
 import CadastroConvenio from "../views/convenio/formCadastro/CadastroConvenio.vue";
 import DetalhesSecretaria from "../views/secretaria/detalhes/DetalhesSecretaria.vue";
+import DetalhesEspecialidade from "../views/especialidades/detalhes/DetalhesEspecialidade.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -75,7 +76,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/cadastrarEspecialidade/:id?",
     name: "cadastroEspecialidade",
     component: CadastroEspecialidade,
-    props: (router) => ({id: router.params.id})
+    props: (router) => ({ id: router.params.id }),
   },
   {
     path: "/cadastrarConvenio",
@@ -88,9 +89,16 @@ const routes: Array<RouteRecordRaw> = [
     component: CadastroAgendamento,
   },
   {
-    path: "/detalhesSecretaria",
+    path: "/detalhesSecretaria/:id?",
     name: "detalhesSecretaria",
     component: DetalhesSecretaria,
+    props: (router) => ({ id: router.params.id }),
+  },
+  {
+    path: "/detalhesEspecialidades/:id?",
+    name: "detalhesEspecialidades",
+    component: DetalhesEspecialidade,
+    props: (router) => ({ id: router.params.id }),
   },
 ];
 

@@ -50,6 +50,13 @@
             >
               Editar
             </button>
+            <button
+              class="is-link button"
+              d="button-status"
+              @click="details(info.id)"
+            >
+              <router-link to="/detalhesEspecialidades">Detalhes</router-link>
+            </button>
           </td>
         </tr>
       </tbody>
@@ -190,6 +197,12 @@ export default class EspecialidadeView extends Vue {
     } else if (name.length == 0) {
       this.toListEspecialidades(0);
     }
+  }
+  public details(id: number): void {
+    this.$router.push({
+      name: "detalhesEspecialidades",
+      params: { id: id },
+    });
   }
 }
 </script>
