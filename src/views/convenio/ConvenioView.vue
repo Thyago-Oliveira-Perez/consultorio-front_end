@@ -26,19 +26,34 @@
           <td v-if="!info.ativo">Desabilitado</td>
           <td v-if="info.ativo">Habilitado</td>
           <td>{{ info.valor }}</td>
-          <td style="display: flex; flex-direction: row">
+          <td
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
             <button class="is-link button" id="button-status">Desativar</button>
             <button class="is-link button" id="button-edit">
               <router-link to="/" style="text-decoration: none; color: black"
                 >Editar</router-link
               >
             </button>
+            <button
+              class="is-link button"
+              d="button-status"
+              @click="details(info.id)"
+            >
+              Detalhes
+            </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-    <nav
+  <nav
     class="pagination is-centered"
     role="navigation"
     aria-label="pagination"
@@ -128,6 +143,13 @@ export default class ConvenioView extends Vue {
       },
       (error) => console.log(error)
     );
+  }
+
+  public details(id: number): void {
+    this.$router.push({
+      name: "detalhesConvenio",
+      params: { id: id },
+    });
   }
 }
 </script>

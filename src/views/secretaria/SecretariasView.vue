@@ -169,7 +169,7 @@ export default class SecretariasView extends Vue {
   }
 
   public onClickCadastrar(): void {
-    this.$router.push({ name: "cadastroEspecialidade" });
+    this.$router.push({ name: "cadastroSecretaria" });
   }
 
   public onSearch(name: string): void {

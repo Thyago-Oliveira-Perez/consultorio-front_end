@@ -15,6 +15,10 @@ import CadastroEspecialidade from "../views/especialidades/formCadastro/Cadastro
 import CadastroConvenio from "../views/convenio/formCadastro/CadastroConvenio.vue";
 import DetalhesSecretaria from "../views/secretaria/detalhes/DetalhesSecretaria.vue";
 import DetalhesEspecialidade from "../views/especialidades/detalhes/DetalhesEspecialidade.vue";
+import DetalhesPaciente from "../views/paciente/detalhes/DetalhesPaciente.vue";
+import DetalhesAgendamento from "../views/agendamentos/detalhes/DetalhesAgendamento.vue";
+import DetalhesConvenio from "../views/convenio/detalhes/DetalhesConvenio.vue";
+import DetalhesMedico from "../views/medico/detalhes/DetalhesMedico.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -99,6 +103,30 @@ const routes: Array<RouteRecordRaw> = [
     path: "/detalhesEspecialidades/:id?",
     name: "detalhesEspecialidades",
     component: DetalhesEspecialidade,
+    props: (router) => ({ id: router.params.id }),
+  },
+  {
+    path: "/detalhesPaciente/:id?",
+    name: "detalhesPaciente",
+    component: DetalhesPaciente,
+    props: (router) => ({ id: router.params.id }),
+  },
+  {
+    path: "/detalhesAgendamento/:id?",
+    name: "detalhesAgendamento",
+    component: DetalhesAgendamento,
+    props: (router) => ({ id: router.params.id }),
+  },
+  {
+    path: "/detalhesConvenio/:id?",
+    name: "detalhesConvenio",
+    component: DetalhesConvenio,
+    props: (router) => ({ id: router.params.id }),
+  },
+  {
+    path: "/detalhesMedico/:id?",
+    name: "detalhesMedico",
+    component: DetalhesMedico,
     props: (router) => ({ id: router.params.id }),
   },
 ];

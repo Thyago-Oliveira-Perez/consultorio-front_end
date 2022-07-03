@@ -30,7 +30,7 @@
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <a @click="$router.go(-1)">Cancelar</a>
+    <a href="/agendamentos">Cancelar</a>
   </button>
   <button class="button is-link button" style="background-color: #42b983">
     Cadastrar
