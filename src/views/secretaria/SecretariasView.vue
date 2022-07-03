@@ -32,7 +32,7 @@
                 >Editar</router-link
               >
             </button>
-            <button class="is-link button" d="button-status">
+            <button class="is-link button" d="button-status" @click="details(info.id)">
               <router-link to="/detalhesSecretaria">Detalhes</router-link>
             </button>
           </td>
@@ -132,6 +132,13 @@ export default class SecretariasView extends Vue {
       },
       (error) => console.log(error)
     );
+  }
+
+    public details(id: number): void {
+    this.$router.push({
+      name: "detalhesSecretaria",
+      params: { id: id },
+    });
   }
 }
 </script>
