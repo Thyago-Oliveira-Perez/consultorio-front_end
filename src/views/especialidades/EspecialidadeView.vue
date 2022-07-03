@@ -33,7 +33,7 @@
           <td>{{ info.nome }}</td>
           <td v-if="info.ativo">Habilitado</td>
           <td v-if="!info.ativo">Desabilitado</td>
-          <td style="display: flex; flex-direction: row">
+          <td style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap:  wrap;">
             <button
               @click="disable(info.id)"
               style="text-decoration: none"
@@ -55,7 +55,7 @@
               d="button-status"
               @click="details(info.id)"
             >
-              <router-link to="/detalhesEspecialidades">Detalhes</router-link>
+              Detalhes
             </button>
           </td>
         </tr>
@@ -93,6 +93,7 @@ td {
   min-width: 10%;
   min-height: 70px;
 }
+
 tr {
   display: flex;
   align-items: center;
@@ -101,6 +102,8 @@ tr {
 
 button {
   border-radius: 5px;
+  margin: 6px;
+  width: auto;
 }
 
 #button-status {
@@ -198,6 +201,7 @@ export default class EspecialidadeView extends Vue {
       this.toListEspecialidades(0);
     }
   }
+  
   public details(id: number): void {
     this.$router.push({
       name: "detalhesEspecialidades",

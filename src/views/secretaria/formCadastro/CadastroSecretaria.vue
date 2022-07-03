@@ -188,6 +188,7 @@ a {
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
 import { SecretariaClient } from "@/client/secretaria.client";
 import { Secretaria } from "@/model/secretaria.model";
@@ -198,16 +199,42 @@ export default class CadastroSecretaria extends Vue {
 
   public mounted(): void {
     this.secretariaClient = new SecretariaClient();
+    if(this.id){
+      this.getById(this.id);
+    }
   }
 
   public registerSecretaria(): void {
-    this.secretariaClient.register(this.secretaria).then(
-      (sucess) => {
-        console.log(sucess);
-        this.secretaria = new Secretaria();
-      },
-      (error) => console.log(error)
-    );
+    if (this.secretaria.id != null) {
+      this.secretariaClient.edit(this.secretaria.id, this.secretaria).then(
+        (success) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    } else {
+      this.secretariaClient.register(this.secretaria).then(
+        (sucess) => {
+          console.log(sucess);
+          this.secretaria = new Secretaria();
+        },
+        (error) => console.log(error)
+      );
+    }
+  }
+
+  @Prop({ type: Number, require: true })
+  private readonly id!: number;
+
+  private getById(id: number): void {
+    this.secretariaClient.findById(id).then((success) => {
+      this.secretaria = success;
+    });
+  }
+
+  private onClickClear(): void {
+    this.secretaria = new Secretaria();
+    this.$router.push({ name: "secretarias" });
   }
 }
 </script>

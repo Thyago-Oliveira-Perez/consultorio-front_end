@@ -13,6 +13,10 @@ export class SecretariaClient extends CommonClient{
     return this._findById<Secretaria>(id);
   }
 
+  public async findByName(pageRequest: PageRequest, name: string){
+    return this._findByName<Secretaria>(pageRequest, name);
+  }
+
   public async findAll(pageRequest: PageRequest){
     return this._findAll<Secretaria>(pageRequest);
   }

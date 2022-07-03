@@ -13,6 +13,10 @@ export class PacienteClient extends CommonClient{
     return this._findById<Paciente>(id);
   }
 
+  public async findByName(pageRequest: PageRequest, name: string){
+    return this._findByName<Paciente>(pageRequest, name);
+  }
+
   public async findAll(pageRequest: PageRequest){
     return this._findAll<Paciente>(pageRequest);
   }

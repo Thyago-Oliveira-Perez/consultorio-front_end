@@ -68,9 +68,10 @@ const routes: Array<RouteRecordRaw> = [
     component: CadastroPaciente,
   },
   {
-    path: "/cadastrarSecretaria",
+    path: "/cadastrarSecretaria/:id?",
     name: "cadastroSecretaria",
     component: CadastroSecretaria,
+    props: (router) => ({ id: router.params.id }),
   },
   {
     path: "/cadastrarEspecialidade/:id?",
