@@ -13,6 +13,10 @@ export class EspecialidadeClient extends CommonClient{
     return this._findById<Especialidade>(id);
   }
 
+  public async findByName(pageRequest: PageRequest, name: string) {
+    return this._findByName<Especialidade>(pageRequest, name);
+  }
+
   public async findAll(pageRequest: PageRequest){
     return this._findAll<Especialidade>(pageRequest);
   }

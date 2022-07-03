@@ -3,7 +3,14 @@
     <h1>Especialidades</h1>
   </div>
   <div class="column is-12" style="display: flex; align-items: center">
-    <input class="input" type="text" placeholder="Procurar" />
+    <input class="input" v-model="name" type="text" placeholder="Procurar" />
+    <button
+      class="button is-link button"
+      id="button-cadastrar"
+      @click="onSearch(name)"
+    >
+      Procurar
+    </button>
     <button
       class="button is-link button"
       id="button-cadastrar"
@@ -125,6 +132,8 @@ export default class EspecialidadeView extends Vue {
   private especialidadeClient!: EspecialidadeClient;
   public especialidadeList: Especialidade[] = [];
 
+  public name = "";
+
   public mounted(): void {
     this.especialidadeClient = new EspecialidadeClient();
     this.toListEspecialidades(0);
@@ -133,8 +142,8 @@ export default class EspecialidadeView extends Vue {
   public toListEspecialidades(page: number): void {
     this.pageRequest.currentPage = page;
     this.especialidadeClient.findAll(this.pageRequest).then(
-      (sucess) => {
-        this.pageResponse = sucess;
+      (success) => {
+        this.pageResponse = success;
         this.especialidadeList = this.pageResponse.content;
         console.log(this.pageResponse.content);
       },
@@ -150,16 +159,37 @@ export default class EspecialidadeView extends Vue {
   }
 
   public disable(id: number): void {
-    this.especialidadeClient.updateStatus(id).then(
-      (success) => {
-        console.log(success);
-      },
-      (error) => console.log(error)
-    );
+    if (
+      this.especialidadeList.filter((e) => e.id == id && e.ativo == true)
+        .length != 0
+    ) {
+      this.especialidadeClient.updateStatus(id).then(
+        (success) => {
+          console.log(success);
+          this.toListEspecialidades(0);
+        },
+        (error) => console.log(error)
+      );
+    }
   }
 
   public onClickCadastrar(): void {
     this.$router.push({ name: "cadastroEspecialidade" });
+  }
+
+  public onSearch(name: string): void {
+    if (name.length != 0) {
+      this.especialidadeClient
+        .findByName(this.pageRequest, name)
+        .then((success) => {
+          this.pageResponse = success;
+          console.log(this.pageResponse.content);
+          this.especialidadeList = this.pageResponse.content;
+          this.$router.push({ name: "especialidades" });
+        });
+    } else if (name.length == 0) {
+      this.toListEspecialidades(0);
+    }
   }
 }
 </script>

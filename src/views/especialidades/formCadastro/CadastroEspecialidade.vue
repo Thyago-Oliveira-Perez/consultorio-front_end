@@ -135,7 +135,7 @@ export default class CadastroEspecialidade extends Vue {
 
   private onClickClear(): void {
     this.especialidade = new Especialidade();
-    this.$router.push({ name: "/especialidades" });
+    this.$router.push({ name: "especialidades" });
   }
 }
 </script>

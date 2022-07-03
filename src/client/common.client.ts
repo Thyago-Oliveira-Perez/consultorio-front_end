@@ -23,6 +23,14 @@ export class CommonClient {
     }
   }
 
+  protected async _findByName<T>(pageRequest: PageRequest, name: string): Promise<PageResponse<T>>{
+    try{
+      return (await this.axiosClient.get(`${this.url}/search/${name}`)).data
+    }catch(error: any){
+      return this.handleError(error);
+    }
+  }
+
   protected async _findAll<T>(pageRequest: PageRequest): Promise<PageResponse<T>> {
     try {
       let requestPath = this.url;
