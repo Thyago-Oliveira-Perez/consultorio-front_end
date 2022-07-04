@@ -65,7 +65,7 @@
       </div>
       <div id="input-field">
         <label>Especialidade</label>
-        <p>{{ medico.especialidade }}</p>
+        <p v-if="medico.especialidade">{{ medico.especialidade.nome }}</p>
       </div>
     </div>
   </div>

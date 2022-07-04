@@ -162,7 +162,7 @@ export default class SecretariasView extends Vue {
     this.secretariaClient.findAll(this.pageRequest).then(
       (sucesss) => {
         this.pageResponse = sucesss;
-        this.secretariaList = this.pageResponse.content;
+        this.secretariaList = this.pageResponse.content.filter(e => e.ativo = true);
       },
       (error) => console.log(error)
     );
@@ -200,7 +200,6 @@ export default class SecretariasView extends Vue {
     ) {
       this.secretariaClient.updateStatus(id).then(
         (success) => {
-          console.log(success);
           this.toListSecretarias(0);
         },
         (error) => console.log(error)

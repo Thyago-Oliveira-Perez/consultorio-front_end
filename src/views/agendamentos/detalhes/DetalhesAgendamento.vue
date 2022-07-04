@@ -12,20 +12,20 @@
       </div>
       <div id="input-field">
         <label>Status de Agendamento</label>
-        <p>{{ agenda.statusAgenda }}</p>
+        <p>{{ agenda.status }}</p>
       </div>
       <div id="input-field">
         <label>Médco</label>
-        <p>{{ agenda.medico }}</p>
+        <p v-if="agenda.medico">{{ agenda.medico.nome }}</p>
       </div>
       <div id="input-field">
         <label>Paciente</label>
-        <p>{{ agenda.paciente }}</p>
+        <p v-if="agenda.paciente">{{ agenda.paciente.nome }}</p>
       </div>
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <router-link to="/pacientes">Voltar</router-link>
+    <router-link to="/agendamentos">Voltar</router-link>
   </button>
 </template>
 

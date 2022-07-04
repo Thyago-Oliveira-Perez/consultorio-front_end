@@ -137,6 +137,7 @@ export default class DetalhesSecretaria extends Vue {
   private getById(id: number): void {
     this.secretariaClient.findById(id).then((success) => {
       this.secretaria = success;
+      console.log(this.secretaria)
     });
   }
 }

@@ -24,7 +24,7 @@
       </thead>
       <tbody>
         <tr v-for="info in agendaList" :key="info.id">
-          <td>{{ info.statusAgenda }}</td>
+          <td>{{ info.status }}</td>
           <td>{{ info.paciente.nome }}</td>
           <td>{{ info.dataDe }}</td>
           <td v-if="info.encaixe">SIM</td>

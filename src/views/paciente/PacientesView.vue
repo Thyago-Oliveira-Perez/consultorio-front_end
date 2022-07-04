@@ -19,7 +19,7 @@
           <th>Telefone</th>
           <th>Tipo de Atendimento</th>
           <th>Convenio</th>
-          <th>Data Vencimento Convenio</th>
+          <th>Data Vencimento</th>
           <th>Opções</th>
         </tr>
       </thead>
@@ -29,7 +29,8 @@
           <td>{{ info.nacionalidade }}</td>
           <td>{{ info.telefone }}</td>
           <td>{{ info.tipoAtendimento }}</td>
-          <td>{{ info.convenio }}</td>
+          <td v-if="!info.convenio">Não vinculado</td>
+          <td v-if="info.convenio">{{info.convenio.nome}}</td>
           <td>{{ info.dataVencimento }}</td>
           <td
             style="
@@ -140,6 +141,7 @@ export default class PacientesView extends Vue {
       (sucess) => {
         this.pageResponse = sucess;
         this.pacienteList = this.pageResponse.content;
+        console.log(this.pacienteList[0].convenio.nome)
       },
       (error) => console.log(error)
     );

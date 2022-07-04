@@ -51,7 +51,7 @@
         <label>Nacionalidade</label>
         <div class="select select-option">
           <select v-model="secretaria.nacionalidade">
-            <option>Brasil</option>
+            <option>BRASILEIRO(A)</option>
             <option>Paraguai</option>
             <option>Argentina</option>
             <option>Uruguai</option>
@@ -92,9 +92,9 @@
         <div class="select select-option">
           <select v-model="secretaria.sexo">
             <option></option>
-            <option>Masculino</option>
-            <option>Feminino</option>
-            <option>Outro</option>
+            <option>masculino</option>
+            <option>feminino</option>
+            <option>outro</option>
           </select>
         </div>
       </div>
@@ -135,12 +135,21 @@
   <button
     class="button is-link"
     style="background-color: #42b983"
-    @click="registerSecretaria"
+    @click="registerSecretaria()"
+    v-if="secretaria.id"
   >
-    <router-link to="/secretarias">Cancelar</router-link>
+    Atualizar
+  </button>
+    <button
+    class="button is-link"
+    style="background-color: #42b983"
+    @click="registerSecretaria()"
+    v-if="!secretaria.id"
+  >
+    Cadastrar
   </button>
   <button class="button is-link button" style="background-color: #42b983">
-    Cadastrar
+    <router-link to="/secretarias">Cancelar</router-link>
   </button>
 </template>
 
@@ -199,7 +208,7 @@ export default class CadastroSecretaria extends Vue {
 
   public mounted(): void {
     this.secretariaClient = new SecretariaClient();
-    if(this.id){
+    if (this.id) {
       this.getById(this.id);
     }
   }
@@ -223,12 +232,13 @@ export default class CadastroSecretaria extends Vue {
     }
   }
 
-  @Prop({ type: Number, require: true })
+  @Prop({ type: String, require: true })
   private readonly id!: number;
 
   private getById(id: number): void {
     this.secretariaClient.findById(id).then((success) => {
       this.secretaria = success;
+      console.log(this.secretaria)
     });
   }
 

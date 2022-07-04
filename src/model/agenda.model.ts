@@ -5,7 +5,7 @@ import { Paciente } from "./paciente.model";
 
 export class Agenda extends AbstractClass{
 
-  statusAgenda! : StatusAgenda;
+  status! : StatusAgenda;
   observacao! : string;
   dataDe! : Date;
   dataAte! : Date;
