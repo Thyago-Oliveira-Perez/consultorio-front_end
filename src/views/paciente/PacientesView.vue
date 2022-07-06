@@ -3,7 +3,14 @@
     <h1>Lista de Pacientes</h1>
   </div>
   <div class="column is-12" style="display: flex; align-items: center">
-    <input class="input" type="text" placeholder="Procurar" />
+    <input class="input" v-model="name" type="text" placeholder="Procurar" />
+    <button
+      class="button is-link button"
+      id="button-cadastrar"
+      @click="onSearch(name)"
+    >
+      Procurar
+    </button>
     <button class="button is-link button" id="button-cadastrar">
       <router-link to="/cadastrarPaciente" style="text-decoration: none"
         >Cadastrar</router-link
@@ -30,7 +37,7 @@
           <td>{{ info.telefone }}</td>
           <td>{{ info.tipoAtendimento }}</td>
           <td v-if="!info.convenio">Não vinculado</td>
-          <td v-if="info.convenio">{{info.convenio.nome}}</td>
+          <td v-if="info.convenio">{{ info.convenio.nome }}</td>
           <td>{{ info.dataVencimento }}</td>
           <td
             style="
@@ -130,6 +137,8 @@ export default class PacientesView extends Vue {
   private pacienteClient!: PacienteClient;
   public pacienteList: Paciente[] = [];
 
+  public name = "";
+
   public mounted(): void {
     this.pacienteClient = new PacienteClient();
     this.toListPacientes(0);
@@ -141,7 +150,6 @@ export default class PacientesView extends Vue {
       (sucess) => {
         this.pageResponse = sucess;
         this.pacienteList = this.pageResponse.content;
-        console.log(this.pacienteList[0].convenio.nome)
       },
       (error) => console.log(error)
     );
@@ -152,6 +160,18 @@ export default class PacientesView extends Vue {
       name: "detalhesPaciente",
       params: { id: id },
     });
+  }
+
+  public onSearch(name: string): void {
+    if (name.length != 0) {
+      this.pacienteClient.findByName(this.pageRequest, name).then((success) => {
+        this.pageResponse = success;
+        this.pacienteList = this.pageResponse.content;
+        this.$router.push({ name: "pacientes" });
+      });
+    } else if (name.length == 0) {
+      this.toListPacientes(0);
+    }
   }
 }
 </script>

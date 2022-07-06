@@ -3,7 +3,14 @@
     <h1>Lista de Medicos</h1>
   </div>
   <div class="column is-12" style="display: flex; align-items: center">
-    <input class="input" type="text" placeholder="Procurar" />
+    <input class="input" v-model="name" type="text" placeholder="Procurar" />
+    <button
+      class="button is-link button"
+      id="button-cadastrar"
+      @click="onSearch(name)"
+    >
+      Procurar
+    </button>
     <button class="button is-link button" id="button-cadastrar">
       <router-link to="/cadastrarMedico" style="text-decoration: none"
         >Cadastrar</router-link
@@ -128,6 +135,8 @@ export default class MedicosView extends Vue {
   private medicoClient!: MedicoClient;
   public medicoList: Medico[] = [];
 
+  public name = "";
+
   public mounted(): void {
     this.medicoClient = new MedicoClient();
     this.toListMedicos(0);
@@ -149,6 +158,19 @@ export default class MedicosView extends Vue {
       name: "detalhesMedico",
       params: { id: id },
     });
+  }
+
+  public onSearch(name: string): void {
+    if (name.length != 0) {
+      this.medicoClient.findByName(this.pageRequest, name).then((success) => {
+        this.pageResponse = success;
+        console.log(this.pageResponse.content);
+        this.medicoList = this.pageResponse.content;
+        this.$router.push({ name: "medicos" });
+      });
+    } else if (name.length == 0) {
+      this.toListMedicos(0);
+    }
   }
 }
 </script>

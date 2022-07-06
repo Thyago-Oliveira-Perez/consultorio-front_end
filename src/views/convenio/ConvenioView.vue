@@ -3,7 +3,14 @@
     <h1>Convênios</h1>
   </div>
   <div class="column is-12" style="display: flex; align-items: center">
-    <input class="input" type="text" placeholder="Procurar" />
+    <input class="input" v-model="name" type="text" placeholder="Procurar" />
+    <button
+      class="button is-link button"
+      id="button-cadastrar"
+      @click="onSearch(name)"
+    >
+      Procurar
+    </button>
     <button class="button is-link" id="button-cadastrar">
       <router-link to="/cadastrarConvenio" style="text-decoration: none"
         >Cadastrar</router-link
@@ -129,6 +136,8 @@ export default class ConvenioView extends Vue {
   private convenioClient!: ConvenioClient;
   public conveniosList: Convenio[] = [];
 
+  public name = "";
+
   public mounted(): void {
     this.convenioClient = new ConvenioClient();
     this.toListConvenios(0);
@@ -150,6 +159,18 @@ export default class ConvenioView extends Vue {
       name: "detalhesConvenio",
       params: { id: id },
     });
+  }
+
+  public onSearch(name: string): void {
+    if (name.length != 0) {
+      this.convenioClient.findByName(this.pageRequest, name).then((success) => {
+        this.pageResponse = success;
+        this.conveniosList = this.pageResponse.content;
+        this.$router.push({ name: "convenios" });
+      });
+    } else if (name.length == 0) {
+      this.toListConvenios(0);
+    }
   }
 }
 </script>
