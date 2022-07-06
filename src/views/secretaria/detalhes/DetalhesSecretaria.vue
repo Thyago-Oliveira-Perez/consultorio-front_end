@@ -36,7 +36,7 @@
       </div>
       <div id="input-field">
         <label>Senha</label>
-        <p>{{ secretaria.senha }}</p>
+        <p>**********</p>
       </div>
       <div id="input-field">
         <label>Sexo</label>
@@ -62,7 +62,7 @@
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <router-link to="/secretarias">Cancelar</router-link>
+    <router-link to="/secretarias">Voltar</router-link>
   </button>
 </template>
 

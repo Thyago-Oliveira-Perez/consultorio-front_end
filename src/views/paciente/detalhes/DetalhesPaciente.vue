@@ -36,7 +36,7 @@
       </div>
       <div id="input-field">
         <label>Senha</label>
-        <p>{{ paciente.senha }}</p>
+        <p>**********</p>
       </div>
       <div id="input-field">
         <label>Sexo</label>

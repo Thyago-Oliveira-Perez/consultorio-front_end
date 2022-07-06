@@ -8,7 +8,8 @@
       </div>
       <div id="input-field">
         <label>Observação</label>
-        <p>{{ agenda.observacao }}</p>
+        <p v-if="!agenda.observacao">Não possui observação.</p>
+        <p v-if="agenda.observacao">{{ agenda.observacao }}</p>
       </div>
       <div id="input-field">
         <label>Status de Agendamento</label>
