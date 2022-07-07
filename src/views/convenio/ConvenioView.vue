@@ -158,7 +158,7 @@ export default class ConvenioView extends Vue {
 
   public edit(id: number): void {
     this.$router.push({
-      name: "cadastroEspecialidade",
+      name: "cadastrarConvenio",
       params: { id: id },
     });
   }

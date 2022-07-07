@@ -42,10 +42,12 @@
           "
         >
           <button class="is-link button" id="button-status">Desativar</button>
-          <button class="is-link button" id="button-edit">
-            <router-link to="/" style="text-decoration: none"
-              >Editar</router-link
-            >
+          <button
+            class="is-link button"
+            id="button-edit"
+            @click="edit(info.id)"
+          >
+            Editar
           </button>
           <button
             class="is-link button"
@@ -151,6 +153,13 @@ export default class MedicosView extends Vue {
       },
       (error) => console.log(error)
     );
+  }
+
+  public edit(id: number): void {
+    this.$router.push({
+      name: "cadastrarMedico",
+      params: { id: id },
+    });
   }
 
   public details(id: number): void {

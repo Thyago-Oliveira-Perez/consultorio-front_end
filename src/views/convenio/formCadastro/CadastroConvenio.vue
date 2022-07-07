@@ -25,7 +25,20 @@
   <button class="button is-link" style="background-color: #42b983">
     <router-link to="/convenios">Voltar</router-link>
   </button>
-  <button class="button is-link button" style="background-color: #42b983">
+  <button
+    v-if="convenio.id"
+    class="button is-link button"
+    style="background-color: #42b983"
+    @click="registerConvenio"
+  >
+    Atualizar
+  </button>
+  <button
+    v-if="!convenio.id"
+    class="button is-link button"
+    style="background-color: #42b983"
+    @click="registerConvenio"
+  >
     Cadastrar
   </button>
 </template>
@@ -100,13 +113,30 @@ export default class CadastroConvenio extends Vue {
   }
 
   public registerConvenio(): void {
-    this.convenioClient.register(this.convenio).then(
-      (sucess) => {
-        console.log(sucess);
-        this.convenio = new Convenio();
-      },
-      (error) => console.log(error)
-    );
+    if (this.convenio.id != null) {
+      this.convenioClient.edit(this.convenio.id, this.convenio).then(
+        (sucess) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    } else {
+      if (this.convenio.ativo === undefined) {
+        this.convenio.ativo = false;
+      }
+
+      this.convenioClient.register(this.convenio).then(
+        (sucess) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    }
+  }
+
+  private onClickClear(): void {
+    this.convenio = new Convenio();
+    this.$router.push({ name: "convenios" });
   }
 }
 </script>

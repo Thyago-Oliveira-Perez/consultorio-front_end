@@ -51,7 +51,7 @@
         <label>Nacionalidade</label>
         <div class="select select-option">
           <select v-model="medico.nacionalidade">
-            <option>Brasil</option>
+            <option>BRASILEIRO(A)</option>
             <option>Paraguai</option>
             <option>Argentina</option>
             <option>Uruguai</option>
@@ -92,9 +92,9 @@
         <div class="select select-option">
           <select v-model="medico.sexo">
             <option></option>
-            <option>Masculino</option>
-            <option>Feminino</option>
-            <option>Outro</option>
+            <option>masculino</option>
+            <option>feminino</option>
+            <option>outro</option>
           </select>
         </div>
       </div>
@@ -139,14 +139,18 @@
           placeholder="R$ 00,00"
         />
       </div>
-      <div id="input-field">
+      <div id="input-field" v-if="medico.especialidade">
         <label>Especialidade</label>
         <input
           class="input"
-          v-model="medico.especialidade"
+          v-model="medico.especialidade.nome"
           type="text"
           placeholder="Cardiologista"
         />
+      </div>
+      <div id="input-field" v-if="!medico.especialidade">
+        <label>Especialidade</label>
+        <p>Não possuí especialidade</p>
       </div>
     </div>
   </div>
@@ -154,6 +158,15 @@
     <router-link to="/medicos">Cancelar</router-link>
   </button>
   <button
+    v-if="medico.id"
+    class="button is-link button"
+    style="background-color: #42b983"
+    @click="registerMedicos"
+  >
+    Atualizar
+  </button>
+  <button
+    v-if="!medico.id"
     class="button is-link button"
     style="background-color: #42b983"
     @click="registerMedicos"
@@ -209,6 +222,7 @@ import { Vue } from "vue-class-component";
 
 import { MedicoClient } from "@/client/medico.client";
 import { Medico } from "../../../model/medico.model";
+import { Prop } from "vue-property-decorator";
 
 export default class CadastroMedico extends Vue {
   private medicoClient!: MedicoClient;
@@ -216,16 +230,45 @@ export default class CadastroMedico extends Vue {
 
   public mounted(): void {
     this.medicoClient = new MedicoClient();
+    if (this.id != null) {
+      this.getById(this.id);
+    }
+  }
+
+  @Prop({ type: String, require: true })
+  private readonly id!: number;
+
+  private getById(id: number): void {
+    this.medicoClient.findById(id).then((success) => {
+      this.medico = success;
+      console.log(this.medico);
+    });
   }
 
   public registerMedicos(): void {
-    this.medicoClient.register(this.medico).then(
-      (success) => {
-        console.log(success);
-        this.medico = new Medico();
-      },
-      (error) => console.log(error)
-    );
+    if (this.medico.id != null) {
+      this.medicoClient.edit(this.medico.id, this.medico).then(
+        (sucess) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    } else {
+      if (this.medico.ativo === undefined) {
+        this.medico.ativo = false;
+      }
+      this.medicoClient.register(this.medico).then(
+        (sucess) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    }
+  }
+
+  private onClickClear(): void {
+    this.medico = new Medico();
+    this.$router.push({ name: "medicos" });
   }
 }
 </script>
