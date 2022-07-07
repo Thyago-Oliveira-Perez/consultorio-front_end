@@ -13,12 +13,17 @@
       </div>
       <div id="input-field">
         <label>Valor</label>
-        <input class="input" type="text" placeholder="R$ 00,00" />
+        <input
+          class="input"
+          v-model="convenio.valor"
+          type="text"
+          placeholder="R$ 00,00"
+        />
       </div>
     </div>
   </div>
   <button class="button is-link" style="background-color: #42b983">
-    <a @click="$router.go(-1)">Cancelar</a>
+    <router-link to="/convenios">Voltar</router-link>
   </button>
   <button class="button is-link button" style="background-color: #42b983">
     Cadastrar
@@ -72,6 +77,7 @@ import { Vue } from "vue-class-component";
 
 import { Convenio } from "@/model/convenio.model";
 import { ConvenioClient } from "@/client/convenio.client";
+import { Prop } from "vue-property-decorator";
 
 export default class CadastroConvenio extends Vue {
   private convenioClient!: ConvenioClient;
@@ -79,6 +85,18 @@ export default class CadastroConvenio extends Vue {
 
   public mounted(): void {
     this.convenioClient = new ConvenioClient();
+    if (this.id != null) {
+      this.getById(this.id);
+    }
+  }
+
+  @Prop({ type: String, require: true })
+  private readonly id!: number;
+
+  private getById(id: number): void {
+    this.convenioClient.findById(id).then((success) => {
+      this.convenio = success;
+    });
   }
 
   public registerConvenio(): void {

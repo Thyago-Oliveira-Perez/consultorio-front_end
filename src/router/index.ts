@@ -84,9 +84,10 @@ const routes: Array<RouteRecordRaw> = [
     props: (router) => ({ id: router.params.id }),
   },
   {
-    path: "/cadastrarConvenio",
-    name: "cadastrarConvenio",
+    path: "/cadastrarConvenio/:id?",
+    name: "cadastroConvenio",
     component: CadastroConvenio,
+    props: (router) => ({ id: router.params.id }),
   },
   {
     path: "/cadastrarAgendamento",

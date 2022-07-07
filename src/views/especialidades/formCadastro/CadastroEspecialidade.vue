@@ -124,7 +124,7 @@ export default class CadastroEspecialidade extends Vue {
     }
   }
 
-  @Prop({ type: Number, require: true })
+  @Prop({ type: String, require: true })
   private readonly id!: number;
 
   private getById(id: number): void {
