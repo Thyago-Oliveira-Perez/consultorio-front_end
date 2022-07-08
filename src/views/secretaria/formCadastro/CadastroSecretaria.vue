@@ -132,6 +132,9 @@
       </div>
     </div>
   </div>
+  <button class="button is-link button" style="background-color: #42b983">
+    <router-link to="/secretarias">Cancelar</router-link>
+  </button>
   <button
     class="button is-link"
     style="background-color: #42b983"
@@ -140,16 +143,13 @@
   >
     Atualizar
   </button>
-    <button
+  <button
     class="button is-link"
     style="background-color: #42b983"
     @click="registerSecretaria()"
     v-if="!secretaria.id"
   >
     Cadastrar
-  </button>
-  <button class="button is-link button" style="background-color: #42b983">
-    <router-link to="/secretarias">Cancelar</router-link>
   </button>
 </template>
 
@@ -238,7 +238,6 @@ export default class CadastroSecretaria extends Vue {
   private getById(id: number): void {
     this.secretariaClient.findById(id).then((success) => {
       this.secretaria = success;
-      console.log(this.secretaria)
     });
   }
 

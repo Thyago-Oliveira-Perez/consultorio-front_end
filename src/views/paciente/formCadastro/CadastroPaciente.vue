@@ -51,7 +51,7 @@
         <label>Nacionalidade</label>
         <div class="select select-option">
           <select v-model="paciente.nacionalidade">
-            <option>Brasil</option>
+            <option>BRASILEIRO(A)</option>
             <option>Paraguai</option>
             <option>Argentina</option>
             <option>Uruguai</option>
@@ -92,9 +92,9 @@
         <div class="select select-option">
           <select v-model="paciente.sexo">
             <option></option>
-            <option>{{sexoMasculino}}</option>
-            <option>{{sexoFeminino}}</option>
-            <option>{{sexoOutro}}</option>
+            <option>masculino</option>
+            <option>feminino</option>
+            <option>outro</option>
           </select>
         </div>
       </div>
@@ -107,8 +107,8 @@
         <label>Tipo de Atendimento</label>
         <div class="select select-option">
           <select v-model="paciente.tipoAtendimento">
-            <option>{{tipoAtendimentoParticular}}</option>
-            <option>{{tipoAtendimentoConvenio}}</option>
+            <option>particular</option>
+            <option>convenio</option>
           </select>
         </div>
       </div>
@@ -121,7 +121,7 @@
           placeholder="000000000000"
         />
       </div>
-      <div id="input-field">
+      <div id="input-field" v-if="paciente.convenio">
         <label>Data de Vencimento do Convênio</label>
         <input
           class="input"
@@ -130,11 +130,11 @@
           placeholder="__/__/__"
         />
       </div>
-      <div id="input-field">
+      <div id="input-field" v-if="paciente.convenio">
         <label>Nome do convênio</label>
         <input
           class="input"
-          v-model="paciente.convenio"
+          v-model="paciente.convenio.nome"
           type="text"
           placeholder=""
         />
@@ -145,9 +145,18 @@
     <router-link to="/pacientes">Cancelar</router-link>
   </button>
   <button
-    class="button is-link button"
+    class="button is-link"
     style="background-color: #42b983"
-    @click="registerPaciente"
+    @click="registerPaciente()"
+    v-if="paciente.id"
+  >
+    Atualizar
+  </button>
+  <button
+    class="button is-link"
+    style="background-color: #42b983"
+    @click="registerPaciente()"
+    v-if="!paciente.id"
   >
     Cadastrar
   </button>
@@ -197,35 +206,53 @@ a {
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 
 import { PacienteClient } from "@/client/paciente.client";
 import { Paciente } from "@/model/paciente.model";
-import { Sexo } from "@/enums/sexo";
-import { TipoAtendimento } from "@/enums/tipo_atendimento";
 
 export default class CadastroPaciente extends Vue {
   private pacienteClient!: PacienteClient;
   public paciente = new Paciente();
 
-  public sexoMasculino: Sexo = Sexo.masculino;
-  public sexoFeminino: Sexo = Sexo.feminino;
-  public sexoOutro: Sexo = Sexo.outro;
-
-  public tipoAtendimentoParticular: TipoAtendimento = TipoAtendimento.particular;
-  public tipoAtendimentoConvenio: TipoAtendimento = TipoAtendimento.convenio;
-
   public mounted(): void {
     this.pacienteClient = new PacienteClient();
+    if (this.id) {
+      this.getById(this.id);
+    }
+  }
+
+  @Prop({ type: String, require: true })
+  private readonly id!: number;
+
+  private getById(id: number): void {
+    this.pacienteClient.findById(id).then((success) => {
+      this.paciente = success;
+    });
+  }
+
+  private onClickClear(): void {
+    this.paciente = new Paciente();
+    this.$router.push({ name: "pacientes" });
   }
 
   public registerPaciente(): void {
-    this.pacienteClient.register(this.paciente).then(
-      (sucess) => {
-        console.log(sucess);
-        this.paciente = new Paciente();
-      },
-      (error) => console.log(error)
-    );
+    if (this.paciente.id != null) {
+      this.pacienteClient.edit(this.paciente.id, this.paciente).then(
+        (success) => {
+          this.onClickClear();
+        },
+        (error) => console.log(error)
+      );
+    } else {
+      this.pacienteClient.register(this.paciente).then(
+        (sucess) => {
+          console.log(sucess);
+          this.paciente = new Paciente();
+        },
+        (error) => console.log(error)
+      );
+    }
   }
 }
 </script>
