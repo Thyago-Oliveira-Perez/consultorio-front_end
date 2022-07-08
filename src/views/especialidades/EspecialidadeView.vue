@@ -33,14 +33,32 @@
           <td>{{ info.nome }}</td>
           <td v-if="info.ativo">Habilitado</td>
           <td v-if="!info.ativo">Desabilitado</td>
-          <td style="display: flex; flex-direction: row; align-items: center; justify-content: center; flex-wrap:  wrap;">
+          <td
+            style="
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              flex-wrap: wrap;
+            "
+          >
             <button
+              v-if="info.ativo"
               @click="disable(info.id)"
               style="text-decoration: none"
               class="is-link button"
               id="button-status"
             >
               Desativar
+            </button>
+            <button
+              v-if="!info.ativo"
+              @click="disable(info.id)"
+              style="text-decoration: none"
+              class="is-link button"
+              id="button-habilitar"
+            >
+              Habilitar
             </button>
             <button
               @click="edit(info.id)"
@@ -50,11 +68,7 @@
             >
               Editar
             </button>
-            <button
-              class="is-link button"
-              d="button-status"
-              @click="details(info.id)"
-            >
+            <button class="is-link button" @click="details(info.id)">
               Detalhes
             </button>
           </td>
@@ -110,8 +124,12 @@ button {
   background-color: red;
 }
 
-#button-edit {
+#button-habilitar {
   background-color: #42b983;
+}
+
+#button-edit {
+  background-color: #9400d3;
 }
 
 .table-css {
@@ -169,18 +187,13 @@ export default class EspecialidadeView extends Vue {
   }
 
   public disable(id: number): void {
-    if (
-      this.especialidadeList.filter((e) => e.id == id && e.ativo == true)
-        .length != 0
-    ) {
-      this.especialidadeClient.updateStatus(id).then(
-        (success) => {
-          console.log(success);
-          this.toListEspecialidades(0);
-        },
-        (error) => console.log(error)
-      );
-    }
+    this.especialidadeClient.updateStatus(id).then(
+      (success) => {
+        console.log(success);
+        this.toListEspecialidades(0);
+      },
+      (error) => console.log(error)
+    );
   }
 
   public onClickCadastrar(): void {
@@ -201,7 +214,7 @@ export default class EspecialidadeView extends Vue {
       this.toListEspecialidades(0);
     }
   }
-  
+
   public details(id: number): void {
     this.$router.push({
       name: "detalhesEspecialidades",

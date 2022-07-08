@@ -42,7 +42,24 @@
               flex-wrap: wrap;
             "
           >
-            <button class="is-link button" id="button-status">Desativar</button>
+            <button
+              v-if="info.ativo"
+              @click="disable(info.id)"
+              style="text-decoration: none"
+              class="is-link button"
+              id="button-status"
+            >
+              Desativar
+            </button>
+            <button
+              v-if="!info.ativo"
+              @click="disable(info.id)"
+              style="text-decoration: none"
+              class="is-link button"
+              id="button-habilitar"
+            >
+              Habilitar
+            </button>
             <button
               class="is-link button"
               id="button-edit"
@@ -107,8 +124,12 @@ button {
   background-color: red;
 }
 
-#button-edit {
+#button-habilitar {
   background-color: #42b983;
+}
+
+#button-edit {
+  background-color: #9400d3;
 }
 
 .table-css {
@@ -180,6 +201,16 @@ export default class ConvenioView extends Vue {
     } else if (name.length == 0) {
       this.toListConvenios(0);
     }
+  }
+
+    public disable(id: number): void {
+    this.convenioClient.updateStatus(id).then(
+      (success) => {
+        console.log(success);
+        this.toListConvenios(0);
+      },
+      (error) => console.log(error)
+    );
   }
 }
 </script>
