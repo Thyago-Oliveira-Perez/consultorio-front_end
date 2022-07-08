@@ -44,17 +44,27 @@
             "
           >
             <button
+              v-if="info.ativo"
               @click="disable(info.id)"
               style="text-decoration: none"
               class="is-link button"
               id="button-status"
             >
-              Desativar</button
-            ><button
-              @click="edit(info.id)"
+              Desativar
+            </button>
+            <button
+              v-if="!info.ativo"
+              @click="disable(info.id)"
               style="text-decoration: none"
               class="is-link button"
+              id="button-habilitar"
+            >
+              Habilitar
+            </button>
+            <button
+              class="is-link button"
               id="button-edit"
+              @click="edit(info.id)"
             >
               Editar
             </button>
@@ -118,9 +128,14 @@ button {
   background-color: red;
 }
 
-#button-edit {
+#button-habilitar {
   background-color: #42b983;
 }
+
+#button-edit {
+  background-color: #9400d3;
+}
+
 
 .table-css {
   width: 100%;
@@ -162,7 +177,7 @@ export default class SecretariasView extends Vue {
     this.secretariaClient.findAll(this.pageRequest).then(
       (sucesss) => {
         this.pageResponse = sucesss;
-        this.secretariaList = this.pageResponse.content.filter(e => e.ativo = true);
+        this.secretariaList = this.pageResponse.content;
       },
       (error) => console.log(error)
     );
@@ -194,17 +209,13 @@ export default class SecretariasView extends Vue {
   }
 
   public disable(id: number): void {
-    if (
-      this.secretariaList.filter((e) => e.id == id && e.ativo == true)
-        .length != 0
-    ) {
-      this.secretariaClient.updateStatus(id).then(
-        (success) => {
-          this.toListSecretarias(0);
-        },
-        (error) => console.log(error)
-      );
-    }
+    this.secretariaClient.updateStatus(id).then(
+      (success) => {
+        console.log(success);
+        this.toListSecretarias(0);
+      },
+      (error) => console.log(error)
+    );
   }
 
   public details(id: number): void {
